@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from PIL import ImageTk,Image
 import mysql.connector
 
 class vista_formulario:
@@ -9,30 +10,42 @@ class vista_formulario:
     def crear_ventana(self):
         self.ventana = tk.Tk()
         self.ventana.title("Ventana de formulario")
-        self.ventana.geometry("350x350")
-        self.ventana.config(bg="white")
+        self.ventana.geometry("925x500+300+200")
+        self.ventana.config(bg="#fff")
+        self.ventana.resizable(False,False)
+
+        #img
         
-        self.contenedor = tk.Frame(self.ventana, bg="red")
-        self.contenedor.place(relx=0.5, rely=0.5, anchor="center", width=200, height=200)
         
-        self.label_correo = tk.Label(self.contenedor, text="Ingrese su correo : ", bg="#bbffd5")
-        self.label_correo.pack(pady=5, padx=5, anchor='center')
-        self.entry_correo = tk.Entry(self.contenedor)
-        self.entry_correo.pack(pady=5, padx=5)
+        self.contenedor = tk.Frame(self.ventana,width=350, height=350, bg="white")
+        self.contenedor.place(x=480,y=70)
+
+        texto = tk.Label(self.contenedor,text="Iniciar secion",fg="#57a1f8", bg="white", font=("Microsoft YaHei UI Light",23,"bold"))
+        texto.place(x=70,y=0)
         
-        self.label_contraseña = tk.Label(self.contenedor,text="Ingrese la contraseña: ", bg="#bbffd5")
-        self.label_contraseña.pack(pady=5, padx=5, anchor='center')
-        self.entry_contraseña = tk.Entry(self.contenedor)
-        self.entry_contraseña.pack(pady=5,padx=5)
+        self.label_correo = tk.Label(self.contenedor,text="Correo Electronico:",bg="white",font=("Microsoft YaHei UI Light",11,"bold"))
+        self.label_correo.place(x=30,y=60)
+        self.entry_correo = tk.Entry(self.contenedor,width=35,fg="black",border=0,bg="white",font=("Microsoft YaHei UI Light",11))
+        self.entry_correo.place(x=30,y=80)
+        self.contenedor2 = tk.Frame(self.contenedor,width=295,height=2, bg="black")
+        self.contenedor2.place(x=25,y=107)
+
+        self.label_contraseña = tk.Label(self.contenedor,text="Contraseña:",bg="white",font=("Microsoft YaHei UI Light",11,"bold"))
+        self.label_contraseña.place(x=30,y=149)
+        self.entry_contraseña = tk.Entry(self.contenedor,width=35,show="*",fg="black",border=0,bg="white",font=("Microsoft YaHei UI Light",11))
+        self.entry_contraseña.place(x=30,y=170)
+        self.contenedor3 = tk.Frame(self.contenedor,width=295,height=2, bg="black")
+        self.contenedor3.place(x=25,y=197)
+        
 
     def crear_boton(self):
-        self.boton = tk.Button(self.contenedor, text="Enviar datos", command=self.enviar_datos)
-        self.boton.pack(pady=10)
+        self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.enviar_datos,width=39,pady=7,bg="#57a1f8",fg="white",border=0)
+        self.boton.place(x=35,y=244)
     
     def conectar(self):
         conection = mysql.connector.connect(
             host = "localhost",
-            database = "iniciar sesion",
+            database = "tango-perfumeria",
             user = "root",
             password = ""
         )
@@ -46,7 +59,7 @@ class vista_formulario:
             try:
                 con = self.conectar()
                 cursor = con.cursor()
-                query = "INSERT INTO Datos (correo, contraseña) VALUES (%s, %s)"
+                query = "INSERT INTO `iniciar sesion` (correo, contraseña) VALUES (%s, %s)"
                 cursor.execute(query, (correo, contraseña))
 
                 con.commit()  
