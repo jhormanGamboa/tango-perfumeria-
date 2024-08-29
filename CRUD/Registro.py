@@ -56,7 +56,7 @@ class vista_formulario:
         self.boton.pack(pady=(10, 20))
 
     def cargar_imagen(self):
-        file2 = "CRUD/imagines/logo persona.png"  # Asegúrate de que esta ruta sea correcta.
+        file2 = "CRUD/imagines/logo persona.png"
         img2 = Image.open(file2)
         img2 = img2.resize((200, 200))
         self.img_tk2 = ImageTk.PhotoImage(img2)
