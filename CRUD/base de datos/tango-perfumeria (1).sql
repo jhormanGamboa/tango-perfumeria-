@@ -1,0 +1,82 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 29-08-2024 a las 22:32:28
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `tango-perfumeria`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `iniciar sesion`
+--
+
+CREATE TABLE `iniciar sesion` (
+  `correo` varchar(40) NOT NULL,
+  `contraseña` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `iniciar sesion`
+--
+
+INSERT INTO `iniciar sesion` (`correo`, `contraseña`) VALUES
+('aa', 'aa'),
+('jhorman@gmail.com', 'jhorman123'),
+('prueba', 'aaaa');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registrar usuario`
+--
+
+CREATE TABLE `registrar usuario` (
+  `correo` varchar(40) NOT NULL,
+  `nombre completo` varchar(40) NOT NULL,
+  `contraseña` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `registrar usuario`
+--
+
+INSERT INTO `registrar usuario` (`correo`, `nombre completo`, `contraseña`) VALUES
+('jhorman@gmail.com', 'jhorman gamboa', 'jhorman123');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `iniciar sesion`
+--
+ALTER TABLE `iniciar sesion`
+  ADD PRIMARY KEY (`correo`);
+
+--
+-- Indices de la tabla `registrar usuario`
+--
+ALTER TABLE `registrar usuario`
+  ADD PRIMARY KEY (`correo`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
