@@ -38,12 +38,12 @@ class vista_formulario:
         
 
     def crear_boton(self):
-        self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.enviar_datos,width=39,pady=7,bg="#b9030f",fg="white",border=0)
+        self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.Verificar,width=39,pady=7,bg="#b9030f",fg="white",border=0)
         self.boton.place(x=60,y=244)
     
     
     def cargar_imagen(self):
-        file = "D:\\Users\\SENA\\Downloads\\TANGO.png"
+        file = "CRUD\\imagines\\tango logo.png"
         img = Image.open(file)
         img = img.resize((400, 400))
         self.img_tk = ImageTk.PhotoImage(img)
@@ -62,7 +62,7 @@ class vista_formulario:
         )
         return conection
     
-    def enviar_datos(self):
+    def Verificar(self):
         correo = self.entry_correo.get()
         contraseña = self.entry_contraseña.get()
         
@@ -70,19 +70,30 @@ class vista_formulario:
             try:
                 con = self.conectar()
                 cursor = con.cursor()
-                query = "INSERT INTO `iniciar sesion` (correo, contraseña) VALUES (%s, %s)"
-                cursor.execute(query, (correo, contraseña))
 
-                con.commit()  
+                consulta_verificacion = "SELECT * FROM `registrar usuario` WHERE `correo` = %s"
+                cursor.execute(consulta_verificacion, (correo,))
+                resultado = cursor.fetchone()
+
+                if resultado:
+                    consulta_sesion = "SELECT * FROM `iniciar sesion` WHERE `correo` = %s AND `contraseña` = %s"
+                    cursor.execute(consulta_sesion, (correo, contraseña))
+                    sesion_existente = cursor.fetchone()
+
+                    if sesion_existente:
+                        messagebox.showinfo("Información", "Iniciaste sesión correctamente.")
+                    else:
+                        messagebox.showerror("Error", "La contraseña es incorrecta.")
+                else:
+                    messagebox.showwarning("Advertencia", "El correo no está registrado. Por favor, regístrate primero.")
+
                 cursor.close()
                 con.close()
 
-                messagebox.showinfo("Éxito", "Datos insertados correctamente.")
             except mysql.connector.Error as err:
-                messagebox.showerror("Error", f"Error al insertar datos: {err}")
+                messagebox.showerror("Error", f"Error al conectar a la base de datos: {err}")
         else:
             messagebox.showwarning("Advertencia", "Todos los campos son obligatorios.")
-    
 
     def iniciar(self):
         self.ventana.mainloop()
