@@ -64,15 +64,6 @@ class vista_formulario:
         self.label_img = tk.Label(self.contenedor, image=self.img_tk2, bg="#fff")
         self.label_img.pack(pady=(0, 20))
     
-    def conectar(self):
-        conection = mysql.connector.connect(
-            host="localhost",
-            database="tango-perfumeria",
-            user="root",
-            password=""
-        )
-        return conection
-    
     def enviar_datos(self):
         nombrec = self.entry_nombrec.get()
         correoc = self.entry_correoe.get()

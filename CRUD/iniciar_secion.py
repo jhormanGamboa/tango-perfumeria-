@@ -53,15 +53,6 @@ class vista_formulario:
         self.label_img = tk.Label(self.ventana, image=self.img_tk, bg="#d4ddb1", width=450, height=500)
         self.label_img.place(x=0, y=0)
     
-    def conectar(self):
-        conection = mysql.connector.connect(
-            host = "localhost",
-            database = "tango-perfumeria",
-            user = "root",
-            password = ""
-        )
-        return conection
-    
     def Verificar(self):
         correo = self.entry_correo.get()
         contraseña = self.entry_contraseña.get()
