@@ -34,12 +34,17 @@ class vista_formulario:
         self.contenedor3 = tk.Frame(self.contenedor,width=295,height=2, bg="black")
         self.contenedor3.place(x=55,y=197)
         
+        texto_registro = tk.Label(self.contenedor,text="Si no tienes cuenta registrate ",fg="black", bg="white", font=("Microsoft YaHei UI Light",10,"bold"))
+        texto_registro.place(x=55,y=220)
+        
         self.cargar_imagen()
         
 
     def crear_boton(self):
+        self.boton_registrar = tk.Button(self.contenedor, text="AQUI", borderwidth=0, width=4,pady=7, bg="white", fg="#b9030f",font=("Microsoft YaHei UI Light",10,"bold"))
+        self.boton_registrar.place(x=260,y=213)
         self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.Verificar,width=39,pady=7,bg="#b9030f",fg="white",border=0)
-        self.boton.place(x=60,y=244)
+        self.boton.place(x=60,y=274)
     
     
     def cargar_imagen(self):
@@ -92,5 +97,4 @@ class vista_formulario:
 objvista = vista_formulario()
 objvista.crear_ventana()
 objvista.crear_boton()
-aux=objvista.conectar()
 objvista.iniciar()
