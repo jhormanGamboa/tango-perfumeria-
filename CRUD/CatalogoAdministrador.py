@@ -23,32 +23,33 @@ class App:
 
         # Configuración del frame principal
         self.main_frame = tk.Frame(self.root, bg="#f0f0f0")
-        self.main_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        self.main_frame.place(relwidth=1, relheight=1)
 
         # Barra de navegación (parte superior)
         self.nav_frame = tk.Frame(self.main_frame, bg="#d4ddb1")
-        self.nav_frame.grid(row=0, column=0, columnspan=3, pady=10, sticky="ew")
+        self.nav_frame.place(x=0,y=0, width=950, height=80)
+        self.IMG_cargar()
         self.Botones_Navegacion()
 
         # Área de categorías (parte izquierda)
         self.category_frame = tk.Frame(self.main_frame, bg="#d4ddb1")
-        self.category_frame.grid(row=1, column=0, rowspan=2, padx=10, pady=10, sticky="ns")
+        self.category_frame.place(x=0, y=80, width=150, height=700)
         self.load_categories()  # Cargamos las categorías desde la base de datos
         self.Botone_Categoria()
 
         # Área de productos (parte central)
         self.product_frame = tk.Frame(self.main_frame, bg="#f0f0f0")
-        self.product_frame.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
+        self.product_frame.place(x=180, y=100, width=750, height=400)
         self.show_products()
 
         # Botones de Editar y Eliminar (parte derecha)
         self.edit_delete_frame = tk.Frame(self.main_frame, bg="#d4ddb1")
-        self.edit_delete_frame.grid(row=1, column=2, padx=10, pady=10, sticky="ns")
+        self.edit_delete_frame.place(x=785, y=80, width=190, height=700)
         self.BotonesEdicion()
 
         # Botón de Salir (parte inferior derecha)
         self.exit_button = tk.Button(self.main_frame, text="Salir", command=self.root.quit, bg="#b9030f", fg="white")
-        self.exit_button.grid(row=2, column=2, padx=10, pady=10, sticky="se")
+        self.exit_button.place(x=815, y=530, width=100, height=40)
 
         # Ajustes para expandir el área de productos
         self.main_frame.grid_columnconfigure(1, weight=1)
@@ -78,15 +79,26 @@ class App:
             messagebox.showerror("Error", f"Error al cargar categorías: {err}")
 
     def Botones_Navegacion(self):
-        tk.Button(self.nav_frame, text="Registrar Nuevo Producto", command=self.Registar_Productos, bg="#b9030f", fg="white").grid(row=0, column=0, padx=5, pady=5)
-        tk.Button(self.nav_frame, text="Generar Informe", command=self.generate_report, bg="#b9030f", fg="white").grid(row=0, column=1, padx=5, pady=5)
-        tk.Button(self.nav_frame, text="Vender", command=self.sell_product, bg="#b9030f", fg="white").grid(row=0, column=2, padx=5, pady=5)
+        tk.Button(self.nav_frame, text="Registrar Nuevo Producto", command=self.Registar_Productos, bg="#b9030f", fg="white", font=("Arial", 8, "bold")).place(x=10, y=10, width=150, height=40)
+        tk.Button(self.nav_frame, text="Generar Informe", command=self.generate_report, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=180, y=10, width=150, height=40)
+        tk.Button(self.nav_frame, text="Vender", command=self.sell_product, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=350, y=10, width=150, height=40)
 
     def Botone_Categoria(self):
-        tk.Label(self.category_frame, text="Categorías", bg="#d4ddb1", font=("Arial", 14, "bold")).pack(pady=5)
+        tk.Label(self.category_frame, text="Categorías", bg="#d4ddb1", font=("Arial", 14, "bold")).place(x=10, y=10)
+        y_pos = 40
         for category in self.categories:
-            tk.Radiobutton(self.category_frame, text=category, variable=self.current_category, value=category, bg="#d4ddb1", command=self.show_products).pack(anchor="w", padx=10, pady=5)
-        tk.Button(self.category_frame, text="+ Añadir Categoría", command=self.NuevaCategoria, bg="#b9030f", fg="white").pack(pady=5)
+            tk.Radiobutton(self.category_frame, text=category, variable=self.current_category, value=category, bg="#d4ddb1", command=self.show_products).place(x=10, y=y_pos)
+            y_pos += 30
+        tk.Button(self.category_frame, text="+ Añadir Categoría", command=self.NuevaCategoria, bg="#b9030f", fg="white").place(x=10, y=100, width=130, height=40)
+    
+    def IMG_cargar(self):
+        file2 = "CRUD\\IMG\\tango logo.png"
+        img2 = Image.open(file2)
+        img2 = img2.resize((80, 80))
+        self.img_tk2 = ImageTk.PhotoImage(img2)
+        
+        self.label_img = tk.Label(self.nav_frame, image=self.img_tk2, bg="#d4ddb1")
+        self.label_img.place(x=830, y=0)
 
     def show_products(self):
         # Limpia el área de productos
@@ -114,7 +126,7 @@ class App:
         for producto in productos:
             code, nombre, cantidad, precio, descripcion, imagen_data = producto
             frame = tk.Frame(self.product_frame, bg="#ffffff", bd=2, relief="groove", padx=5, pady=5)
-            frame.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+            frame.place(x=col*250, y=row*150, width=180, height=210)
 
             imagen = Image.open(io.BytesIO(imagen_data))
             imagen = imagen.resize((100, 100), RESAMPLING_METHOD)
@@ -122,11 +134,11 @@ class App:
 
             img_label = tk.Label(frame, image=imagen)
             img_label.image = imagen
-            img_label.pack()
+            img_label.place(x=30, y=10)
 
             # Mostrar detalles del producto
             details = f"Nombre: {nombre}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
-            tk.Label(frame, text=details, anchor="w", justify="left").pack(pady=5)
+            tk.Label(frame, text=details, anchor="w", justify="left").place(x=-1, y=120)
 
             col += 1
             if col > 2:
@@ -134,9 +146,9 @@ class App:
                 row += 1
 
     def BotonesEdicion(self):
-        tk.Label(self.edit_delete_frame, text="Editar/Eliminar", bg="#d4ddb1", font=("Arial", 14, "bold")).pack(pady=5)
-        tk.Button(self.edit_delete_frame, text="EDITAR", command=self.Editar_Productos, bg="#b9030f", fg="white").pack(padx=10, pady=10, fill="x")
-        tk.Button(self.edit_delete_frame, text="ELIMINAR", command=self.Eliminar_Productos, bg="#b9030f", fg="white").pack(padx=10, pady=10, fill="x")
+        tk.Label(self.edit_delete_frame, text="Editar/Eliminar", bg="#d4ddb1", font=("Arial", 14, "bold")).place(x=10, y=10)
+        tk.Button(self.edit_delete_frame, text="EDITAR", command=self.Editar_Productos, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=40, y=60, width=80, height=30)
+        tk.Button(self.edit_delete_frame, text="ELIMINAR", command=self.Eliminar_Productos, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=40, y=100, width=80, height=30)
 
     def Registar_Productos(self):
         def select_image():
