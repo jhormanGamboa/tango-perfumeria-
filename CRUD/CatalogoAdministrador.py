@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog, filedialog
 from PIL import Image, ImageTk
 import mysql.connector
+import json
 import io
 
 try:
@@ -28,7 +29,6 @@ class App:
         # Barra de navegación (parte superior)
         self.nav_frame = tk.Frame(self.main_frame, bg="#d4ddb1")
         self.nav_frame.place(x=0,y=0, width=950, height=80)
-        self.IMG_cargar()
         self.Botones_Navegacion()
 
         # Área de categorías (parte izquierda)
@@ -48,12 +48,43 @@ class App:
         self.BotonesEdicion()
 
         # Botón de Salir (parte inferior derecha)
-        self.exit_button = tk.Button(self.main_frame, text="Salir", command=self.root.quit, bg="#b9030f", fg="white")
+        self.exit_button = tk.Button(self.main_frame, text="Salir", command=self.root.quit, bg="#b9030f", fg="white", borderwidth=0)
         self.exit_button.place(x=815, y=530, width=100, height=40)
 
         # Ajustes para expandir el área de productos
         self.main_frame.grid_columnconfigure(1, weight=1)
         self.main_frame.grid_rowconfigure(1, weight=1)
+
+        text = tk.Label(self.nav_frame,text="Tango",fg="#b9030f", bg="#d4ddb1", font=("Arial Rounded MT Bold",23,"bold"))
+        text.place(x=30,y=0)
+
+        text1 = tk.Label(self.nav_frame,text="Perfumeria",fg="#b9030f", bg="#d4ddb1", font=("Arial Rounded MT Bold",23,"bold"))
+        text1.place(x=60,y=40)
+
+        text2 = tk.Label(self.category_frame,text="Videos",fg="black", bg="#d4ddb1", font=("Arial Rounded MT Bold",18,"bold"))
+        text2.place(x=25,y=140)
+
+
+        #contenedor linea
+        self.conteiner = tk.Frame(self.main_frame, bg="black")
+        self.conteiner.place(x=0, y=80, width=1000, height=2)
+
+        self.conteiner1 = tk.Frame(self.main_frame, bg="black")
+        self.conteiner1.place(x=150, y=80, width=2, height=900)
+
+        self.conteiner2 = tk.Frame(self.main_frame, bg="black")
+        self.conteiner2.place(x=784, y=80, width=2, height=900)
+
+        self.conteiner = tk.Frame(self.main_frame, bg="black")
+        self.conteiner.place(x=0, y=510, width=150, height=2)
+
+        self.conteiner = tk.Frame(self.main_frame, bg="black")
+        self.conteiner.place(x=0, y=380, width=150, height=2)
+
+        self.conteiner = tk.Frame(self.main_frame, bg="black")
+        self.conteiner.place(x=0, y=270, width=150, height=2)
+
+        self.IMG_cargar()
 
     def conectar(self):
         conection = mysql.connector.connect(
@@ -79,26 +110,67 @@ class App:
             messagebox.showerror("Error", f"Error al cargar categorías: {err}")
 
     def Botones_Navegacion(self):
-        tk.Button(self.nav_frame, text="Registrar Nuevo Producto", command=self.Registar_Productos, bg="#b9030f", fg="white", font=("Arial", 8, "bold")).place(x=10, y=10, width=150, height=40)
-        tk.Button(self.nav_frame, text="Generar Informe", command=self.generate_report, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=180, y=10, width=150, height=40)
-        tk.Button(self.nav_frame, text="Vender", command=self.sell_product, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=350, y=10, width=150, height=40)
+        tk.Button(self.nav_frame, text="Registrar Nuevo Producto", command=self.Registar_Productos, bg="#b9030f", fg="white", borderwidth=0, font=("Arial", 8, "bold")).place(x=450, y=30, width=150, height=40)
+        tk.Button(self.nav_frame, text="Generar Informe", command=self.generate_report, bg="#b9030f", fg="white", borderwidth=0, font=("Arial", 10, "bold")).place(x=620, y=30, width=150, height=40)
+        tk.Button(self.nav_frame, text="Vender", command=self.sell_product, bg="#b9030f", fg="white",borderwidth=0, font=("Arial", 10, "bold")).place(x=790, y=30, width=150, height=40)
 
     def Botone_Categoria(self):
-        tk.Label(self.category_frame, text="Categorías", bg="#d4ddb1", font=("Arial", 14, "bold")).place(x=10, y=10)
+        tk.Label(self.category_frame, text="Categorías",fg="black", bg="#d4ddb1", font=("Arial Rounded MT Bold",15,"bold")).place(x=10, y=10)
         y_pos = 40
         for category in self.categories:
             tk.Radiobutton(self.category_frame, text=category, variable=self.current_category, value=category, bg="#d4ddb1", command=self.show_products).place(x=10, y=y_pos)
             y_pos += 30
-        tk.Button(self.category_frame, text="+ Añadir Categoría", command=self.NuevaCategoria, bg="#b9030f", fg="white").place(x=10, y=100, width=130, height=40)
+        tk.Button(self.category_frame, text="Añadir Categoría", command=self.NuevaCategoria, bg="#b9030f", fg="white", borderwidth=0).place(x=0, y=100, width=150, height=40)
     
     def IMG_cargar(self):
         file2 = "CRUD\\IMG\\tango logo.png"
         img2 = Image.open(file2)
-        img2 = img2.resize((80, 80))
+        img2 = img2.resize((90, 90))
         self.img_tk2 = ImageTk.PhotoImage(img2)
         
         self.label_img = tk.Label(self.nav_frame, image=self.img_tk2, bg="#d4ddb1")
-        self.label_img.place(x=830, y=0)
+        self.label_img.place(x=280, y=0)
+
+        file3 = "CRUD\\IMG\\youtube.png"
+        img3 = Image.open(file3)
+        img3 = img3.resize((205, 150))
+        self.img_tk3 = ImageTk.PhotoImage(img3)
+        
+        self.label_img3 = tk.Label(self.category_frame, image=self.img_tk3, bg="#d4ddb1")
+        self.label_img3.place(x=-30, y=170)
+
+        file4 = "CRUD\\IMG\\youtube.png"
+        img4 = Image.open(file4)
+        img4 = img4.resize((205, 150))
+        self.img_tk4 = ImageTk.PhotoImage(img4)
+        
+        self.label_img4 = tk.Label(self.category_frame, image=self.img_tk4, bg="#d4ddb1")
+        self.label_img4.place(x=-30, y=300)
+
+        file5 = "CRUD\\IMG\\editar.png"
+        img5 = Image.open(file5)
+        img5 = img5.resize((25, 25))
+        self.img_tk5 = ImageTk.PhotoImage(img5)
+        
+        self.label_img5 = tk.Label(self.edit_delete_frame, image=self.img_tk5, bg="#b9030f")
+        self.label_img5.place(x=21, y=61)
+
+        file6 = "CRUD\\IMG\\añadir.png"
+        img6 = Image.open(file6)
+        img6 = img6.resize((25, 25))
+        self.img_tk6 = ImageTk.PhotoImage(img6)
+        
+        self.label_img6 = tk.Label(self.category_frame, image=self.img_tk6, bg="#b9030f")
+        self.label_img6.place(x=0, y=105)
+
+        file7 = "CRUD\\IMG\\eliminar.png"
+        img7 = Image.open(file7)
+        img7 = img7.resize((25, 25))
+        self.img_tk7 = ImageTk.PhotoImage(img7)
+        
+        self.label_img7 = tk.Label(self.edit_delete_frame, image=self.img_tk7, bg="#b9030f")
+        self.label_img7.place(x=20, y=101)
+
 
     def show_products(self):
         # Limpia el área de productos
@@ -126,7 +198,7 @@ class App:
         for producto in productos:
             code, nombre, cantidad, precio, descripcion, imagen_data = producto
             frame = tk.Frame(self.product_frame, bg="#ffffff", bd=2, relief="groove", padx=5, pady=5)
-            frame.place(x=col*250, y=row*150, width=180, height=210)
+            frame.place(x=col*205, y=row*20, width=180, height=210)
 
             imagen = Image.open(io.BytesIO(imagen_data))
             imagen = imagen.resize((100, 100), RESAMPLING_METHOD)
@@ -146,9 +218,9 @@ class App:
                 row += 1
 
     def BotonesEdicion(self):
-        tk.Label(self.edit_delete_frame, text="Editar/Eliminar", bg="#d4ddb1", font=("Arial", 14, "bold")).place(x=10, y=10)
-        tk.Button(self.edit_delete_frame, text="EDITAR", command=self.Editar_Productos, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=40, y=60, width=80, height=30)
-        tk.Button(self.edit_delete_frame, text="ELIMINAR", command=self.Eliminar_Productos, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=40, y=100, width=80, height=30)
+        tk.Label(self.edit_delete_frame, text="Editar/Eliminar", borderwidth=0,fg="black", bg="#d4ddb1", font=("Arial Rounded MT Bold",15,"bold")).place(x=3, y=10)
+        tk.Button(self.edit_delete_frame, text="EDITAR", command=self.Editar_Productos, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=18, y=60, width=130, height=30)
+        tk.Button(self.edit_delete_frame, text="ELIMINAR", command=self.Eliminar_Productos, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=18, y=100, width=130, height=30)
 
     def Registar_Productos(self):
         def select_image():
@@ -385,11 +457,29 @@ class App:
                 HAVING total_vendido < 5
             """)
             menos_vendidos = cursor.fetchall()
-            for producto in menos_vendidos:
-                tk.Label(report_window, text=f"{producto[0]}: {producto[1]} unidades vendidas").pack(padx=5, pady=5)
 
-            cursor.close()
-            con.close()
+            report_data = {
+            "Productos Más Vendidos": mas_vendidos,
+            "Productos Menos Vendidos": menos_vendidos,
+        }
+
+            file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt")])
+            if file_path:
+                with open(file_path, 'w') as file:
+                    file.write("INFORME DE VENTAS\n\n")
+                    file.write("---------------------------------------------------\n")
+                    file.write("Productos Mas Vendidos:\n")
+                    file.write("---------------------------------------------------\n\n")
+                    for producto in report_data["Productos Más Vendidos"]:
+                        file.write(f"Producto: {producto[0]:<30} | Vendido: {producto[1]} unidades\n")
+                    file.write("\n\n---------------------------------------------------\n")
+                    file.write("Productos Menos Vendidos:\n")
+                    file.write("---------------------------------------------------\n\n")
+                    for producto in report_data["Productos Menos Vendidos"]:
+                        file.write(f"Producto: {producto[0]:<30} | Vendido: {producto[1]} unidades\n")
+                    file.write("\nFin del informe.\n")
+                
+                messagebox.showinfo("Éxito", f"Informe guardado en {file_path}")
 
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error al generar el informe: {err}")
