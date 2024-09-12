@@ -3,7 +3,7 @@ from tkinter import messagebox
 from PIL import ImageTk, Image
 import mysql.connector
 
-class vista_formulario:
+class vista_Registro:
     def __init__(self):
         self.ventana = None
 
@@ -88,10 +88,18 @@ class vista_formulario:
                 messagebox.showerror("Error", "No se pudo establecer conexión con la base de datos.")
         else:
             messagebox.showwarning("Advertencia", "Todos los campos son obligatorios.")
-
+    
+    def obtener_rol(self, correo):
+        if '@admin' in correo:
+            return 'admin'
+        elif '@vendedor' in correo:
+            return 'vendedor'
+        else:
+            return 'usuario'
+        
     def iniciar(self):
         self.ventana.mainloop()
 
-objvista = vista_formulario()
+objvista = vista_Registro()
 objvista.crear_ventana()
 objvista.iniciar()
