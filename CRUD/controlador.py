@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from Registro import vista_formulario
 from iniciar_secion import vista_formulario
-from catalogo import App  # Asegúrate de que el archivo de la vista del catálogo esté nombrado correctamente
+from catalogo import App  
 from modelo import modelo
 
 class Controlador:
