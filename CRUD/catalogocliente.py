@@ -179,7 +179,7 @@ class App:
             img_label.place(x=30, y=10)
 
             # Mostrar detalles del producto
-            details = f"Nombre: {nombre}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
+            details = f"Nombre: {nombre}\nCodigo{code}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
             tk.Label(frame, text=details, anchor="w", justify="left").place(x=-1, y=120)
 
             col += 1
@@ -187,7 +187,7 @@ class App:
                 col = 0
                 row += 1
     def sell_product(self):
-        product_code = simpledialog.askstring("Vender Producto", "Código del Producto:")
+        product_code = simpledialog.askstring("Comprar Producto", "Código del Producto:")
         if product_code:
             try:
                 con = self.conectar()
@@ -197,7 +197,7 @@ class App:
 
                 if product:
                     product_id, cantidad_actual = product
-                    quantity = simpledialog.askinteger("Vender Producto", "Cantidad a vender:")
+                    quantity = simpledialog.askinteger("Comprar Producto", "Cantidad a vender:")
 
                     if quantity and quantity <= cantidad_actual:
                         cursor.execute("INSERT INTO ventas (producto_id, cantidad) VALUES (%s, %s)", (product_id, quantity))
@@ -215,7 +215,7 @@ class App:
                 con.close()
 
             except mysql.connector.Error as err:
-                messagebox.showerror("Error", f"Error al registrar la venta: {err}")
+                messagebox.showerror("Error", f"Error al registrar la compra: {err}")
 
    
     
