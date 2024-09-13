@@ -1,75 +1,47 @@
-import tkinter as tk
-from tkinter import messagebox
-from Registro import vista_formulario
 from iniciar_secion import vista_formulario
-from catalogo import App  
+from Registro import vista_Registro
 from modelo import modelo
+from PIL import ImageTk, Image
+import tkinter as tk
 
-class Controlador:
-    def __init__(self, root):
-        self.modelo = modelo()
-        self.root = root
-        self.vista_login = vista_login()
-        self.vista_formulario = vista_formulario()
-        self.catalogo = None
+class controlador:
+    def __init__(self, objmodelo, objvista_inicio, objvista_registro):
+        self.objmodelo = objmodelo
+        self.objvista_inicio = objvista_inicio
+        self.objvista_registro = objvista_registro
+    
+    def crear_ventana_inicio(self):
+        self.objvista_inicio.crear_ventana()
+        self.objvista_inicio.crear_boton(self.crear_ventana_registro)
+        self.cargar_imagen_inicio()
+        self.objvista_inicio.iniciar()
+        
+    def cargar_imagen_inicio(self):
+        file = "CRUD\\imagines\\tango logo.png"
+        img = Image.open(file)
+        img = img.resize((400, 400))
+        self.img_tk = ImageTk.PhotoImage(img)
+        self.objvista_inicio.cargar_imagen(self.img_tk)
+    
+    def cargar_imagen_registro(self):
+        file2 = "CRUD/imagines/logo persona.png"
+        img2 = Image.open(file2)
+        img2 = img2.resize((200, 200))
+        self.img_tk2 = ImageTk.PhotoImage(img2)
+        self.objvista_registro.cargar_imagen(self.img_tk2)
+    
+    def crear_ventana_registro(self):
+        self.objvista_registro.crear_ventana()
+        self.objvista_registro.crear_boton()
+        self.cargar_imagen_registro()
+        self.objvista_registro.iniciar()
 
-        # Configura las vistas
-        self.setup_vistas()
+# Inicialización de los objetos
+objmodelo = modelo()
+objvista_inicio = vista_formulario()
+objvista_registro = vista_Registro()
+objcontrolador = controlador(objmodelo, objvista_inicio, objvista_registro)
 
-    def setup_vistas(self):
-        # Configura la vista de inicio de sesión
-        self.vista_login.crear_ventana()
-        self.vista_login.iniciar()
-
-        # Establece el comando para el botón de inicio de sesión
-        self.vista_login.set_login_command(self.iniciar_sesion)
-
-        # Configura la vista de registro
-        self.vista_formulario.crear_ventana()
-        self.vista_formulario.iniciar()
-
-        # Establece el comando para el botón de registro
-        self.vista_formulario.set_register_command(self.registrar_usuario)
-
-    def iniciar_sesion(self):
-        correo = self.vista_login.get_correo()
-        contraseña = self.vista_login.get_contraseña()
-
-        if self.validar_usuario(correo, contraseña):
-            self.vista_login.ventana.destroy()  # Cierra la ventana de inicio de sesión
-            self.catalogo = App(self.root)
-            self.catalogo.show_products()  # Muestra los productos en la vista del catálogo
-        else:
-            messagebox.showerror("Error", "Correo o contraseña incorrectos.")
-
-    def validar_usuario(self, correo, contraseña):
-        # Aquí puedes agregar la lógica para validar el usuario desde la base de datos
-        try:
-            con = self.modelo.conectar()
-            cursor = con.cursor()
-            cursor.execute("SELECT * FROM `registrar usuario` WHERE correo = %s AND contraseña = %s", (correo, contraseña))
-            user = cursor.fetchone()
-            con.close()
-            return user is not None
-        except mysql.connector.Error as err:
-            messagebox.showerror("Error", f"Error al conectar con la base de datos: {err}")
-            return False
-
-    def registrar_usuario(self):
-        nombrec = self.vista_formulario.get_nombrec()
-        correo = self.vista_formulario.get_correo()
-        contraseña = self.vista_formulario.get_contraseña()
-
-        if self.validar_registro(nombrec, correo, contraseña):
-            self.vista_formulario.enviar_datos()
-            messagebox.showinfo("Éxito", "Usuario registrado correctamente.")
-        else:
-            messagebox.showwarning("Advertencia", "Todos los campos son obligatorios.")
-
-    def validar_registro(self, nombrec, correo, contraseña):
-        return nombrec and correo and contraseña
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    controlador = Controlador(root)
-    root.mainloop()
+# Configurar el botón de registro en la vista de inicio
+objvista_inicio.crear_boton(objcontrolador.crear_ventana_registro)
+objcontrolador.crear_ventana_inicio()
