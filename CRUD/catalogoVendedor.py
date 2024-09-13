@@ -179,7 +179,7 @@ class App:
             img_label.place(x=30, y=10)
 
             # Mostrar detalles del producto
-            details = f"Nombre: {nombre}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
+            details = f"Nombre: {nombre}\nCodigo:{code}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
             tk.Label(frame, text=details, anchor="w", justify="left").place(x=-1, y=120)
 
             col += 1
