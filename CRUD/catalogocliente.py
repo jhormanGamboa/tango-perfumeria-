@@ -105,7 +105,7 @@ class App:
             messagebox.showerror("Error", f"Error al cargar categorías: {err}")
 
     def Botones_Navegacion(self):
-        tk.Button(self.nav_frame, text="Vender", command=self.sell_product, bg="#b9030f", fg="white",borderwidth=0, font=("Arial", 10, "bold")).place(x=790, y=30, width=150, height=40)
+        tk.Button(self.nav_frame, text="comprar", command=self.sell_product, bg="#b9030f", fg="white",borderwidth=0, font=("Arial", 10, "bold")).place(x=790, y=30, width=150, height=40)
 
     def Botone_Categoria(self):
         tk.Label(self.category_frame, text="Categorías",fg="black", bg="#d4ddb1", font=("Arial Rounded MT Bold",15,"bold")).place(x=10, y=10)
@@ -138,6 +138,10 @@ class App:
         
         self.label_img4 = tk.Label(self.category_frame, image=self.img_tk4, bg="#d4ddb1")
         self.label_img4.place(x=-30, y=300)
+
+      
+       
+
     def show_products(self):
         # Limpia el área de productos
         for widget in self.product_frame.winfo_children():
@@ -175,14 +179,46 @@ class App:
             img_label.place(x=30, y=10)
 
             # Mostrar detalles del producto
-            details = f"Nombre: {nombre}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
+            details = f"Nombre: {nombre}\nCodigo{code}\nCantidad: {cantidad}\nPrecio: ${precio}\nDescripción: {descripcion}"
             tk.Label(frame, text=details, anchor="w", justify="left").place(x=-1, y=120)
 
             col += 1
             if col > 2:
                 col = 0
                 row += 1
+    def sell_product(self):
+        product_code = simpledialog.askstring("Comprar Producto", "Código del Producto:")
+        if product_code:
+            try:
+                con = self.conectar()
+                cursor = con.cursor()
+                cursor.execute("SELECT id, cantidad FROM productos WHERE codigo = %s", (product_code,))
+                product = cursor.fetchone()
+
+                if product:
+                    product_id, cantidad_actual = product
+                    quantity = simpledialog.askinteger("Comprar Producto", "Cantidad a vender:")
+
+                    if quantity and quantity <= cantidad_actual:
+                        cursor.execute("INSERT INTO ventas (producto_id, cantidad) VALUES (%s, %s)", (product_id, quantity))
+                        cursor.execute("UPDATE productos SET cantidad = cantidad - %s WHERE id = %s", (quantity, product_id))
+                        con.commit()
+
+                        messagebox.showinfo("Éxito", "Compra registrada correctamente.")
+                        self.show_products()
+                    else:
+                        messagebox.showwarning("Advertencia", "Cantidad inválida o insuficiente.")
+                else:
+                    messagebox.showerror("Error", "Producto no encontrado.")
                 
+                cursor.close()
+                con.close()
+
+            except mysql.connector.Error as err:
+                messagebox.showerror("Error", f"Error al registrar la compra: {err}")
+
+   
+    
 if __name__ == "__main__":
     root = tk.Tk()  
     app = App(root)  
