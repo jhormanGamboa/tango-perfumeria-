@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox,Toplevel
 from PIL import ImageTk, Image
 import mysql.connector
 
@@ -8,7 +8,7 @@ class vista_Registro:
         self.ventana = None
 
     def crear_ventana(self):
-        self.ventana = tk.Tk()
+        self.ventana = Toplevel()
         self.ventana.title("Ventana de Registro")
         self.ventana.geometry("925x600")
         self.ventana.config(bg="#fff")
@@ -51,9 +51,11 @@ class vista_Registro:
 
         self.crear_boton()
 
-    def crear_boton(self):
-        self.boton = tk.Button(self.contenedor, text="Registrar", command=self.enviar_datos, width=39, pady=7, bg="#b9030f", fg="white", border=0)
-        self.boton.pack(pady=(10, 20))
+    def crear_boton(self, callback_registrar=None):
+        if callback_registrar:
+            self.boton_registrar = tk.Button(self.contenedor, text="Registrar", command=callback_registrar, width=39, pady=7, bg="#b9030f", fg="white", border=0)
+            self.boton_registrar.place(x=340, y=490)
+        
 
     def cargar_imagen(self):
         file2 = "CRUD/imagines/logo persona.png"
@@ -99,7 +101,3 @@ class vista_Registro:
         
     def iniciar(self):
         self.ventana.mainloop()
-
-objvista = vista_Registro()
-objvista.crear_ventana()
-objvista.iniciar()

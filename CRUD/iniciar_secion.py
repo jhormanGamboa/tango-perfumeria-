@@ -4,8 +4,9 @@ from PIL import ImageTk,Image
 import mysql.connector
 
 class vista_formulario:
-    def __init__(self):
+    def __init__(self, controlador):
         self.ventana = None
+        self.controlador = controlador
 
     def crear_ventana(self):
         self.ventana = tk.Tk()
@@ -40,9 +41,11 @@ class vista_formulario:
         self.cargar_imagen()
         
 
-    def crear_boton(self):
-        self.boton_registrar = tk.Button(self.contenedor, text="AQUI", borderwidth=0, width=4,pady=7, bg="white", fg="#b9030f",font=("Microsoft YaHei UI Light",10,"bold"))
-        self.boton_registrar.place(x=260,y=213)
+    def crear_boton(self, callback_registrar=None):
+        if callback_registrar:
+            self.boton_registrar = tk.Button(self.contenedor, text="AQUI", borderwidth=0, width=4,pady=7, bg="white", fg="#b9030f",font=("Microsoft YaHei UI Light",10,"bold"), command=callback_registrar)
+            self.boton_registrar.place(x=260,y=213)
+    def crear_boton2(self):
         self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.Verificar,width=39,pady=7,bg="#b9030f",fg="white",border=0)
         self.boton.place(x=60,y=274)
     
@@ -93,8 +96,3 @@ class vista_formulario:
 
     def iniciar(self):
         self.ventana.mainloop()
-
-objvista = vista_formulario()
-objvista.crear_ventana()
-objvista.crear_boton()
-objvista.iniciar()
