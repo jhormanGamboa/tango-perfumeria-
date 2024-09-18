@@ -1,10 +1,16 @@
+import mysql.connector
+
 class modelo:
     def __init__(self):
+        self.nombrec = None
         self.correo = None
         self.contraseña = None
         self.cantidad = None
         self.precio = None
         self.descripcion = None
+    
+    def get_nombrec(self):
+        return self.nombrec
     
     def get_correo(self):
         return self.correo
@@ -21,6 +27,9 @@ class modelo:
     def get_descripcion(self):
         return self.descripcion
     
+    def set_nombrec(self,datonombrec):
+        self.nombrec = datonombrec
+        
     def set_correo(self, datocorreo):
         self.correo = datocorreo
     
@@ -36,5 +45,11 @@ class modelo:
     def set_descripcion(self,datodescripcion):
         self.descripcion = datodescripcion
         
-    def imprimir(self):
-        pass
+    def conectar(self):
+        conection = mysql.connector.connect(
+            host = "localhost",
+            database = "tango-perfumeria",
+            user = "root",
+            password = ""
+        )
+        return conection
