@@ -86,15 +86,6 @@ class App:
 
         self.IMG_cargar()
 
-    def conectar(self):
-        conection = mysql.connector.connect(
-            host="localhost",
-            database="tango-perfumeria",
-            user="root",
-            password=""
-        )
-        return conection
-
     def load_categories(self):
         try:
             con = self.conectar()

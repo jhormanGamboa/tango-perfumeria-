@@ -4,9 +4,10 @@ from PIL import ImageTk,Image
 import mysql.connector
 
 class vista_formulario:
-    def __init__(self, controlador):
+    def __init__(self, controlador, objmodelo):
         self.ventana = None
         self.controlador = controlador
+        self.objmodelo = objmodelo
 
     def crear_ventana(self):
         self.ventana = tk.Tk()
@@ -67,7 +68,7 @@ class vista_formulario:
         
         if correo and contraseña:
             try:
-                con = self.conectar()
+                con = self.objmodelo.conectar()
                 cursor = con.cursor()
 
                 consulta_verificacion = "SELECT * FROM `registrar usuario` WHERE `correo` = %s"
