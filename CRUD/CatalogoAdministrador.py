@@ -12,8 +12,9 @@ except ImportError:
     RESAMPLING_METHOD = Image.Resampling.LANCZOS
 
 class App:
-    def __init__(self, root):  
+    def __init__(self, root,modelo):  
         self.root = root
+        self.modelo = modelo
         self.root.title("Catálogo de Productos")
         self.root.geometry("950x600")
         self.root.resizable(False, False)
@@ -88,7 +89,7 @@ class App:
 
     def load_categories(self):
         try:
-            con = self.conectar()
+            con = self.modelo.conectar()
             cursor = con.cursor()
             cursor.execute("SELECT nombre FROM categorias")
             categorias = cursor.fetchall()
@@ -171,7 +172,7 @@ class App:
         # Muestra los productos de la categoría seleccionada
         selected_category = self.current_category.get()
         try:
-            con = self.conectar()
+            con = self.modelo.conectar()
             cursor = con.cursor()
             cursor.execute("""
                 SELECT productos.codigo, productos.nombre, productos.cantidad, productos.precio, productos.descripcion, productos.imagen 
@@ -239,7 +240,7 @@ class App:
                 return
 
             try:
-                con = self.conectar()
+                con = self.modelo.conectar()
                 cursor = con.cursor()
                 cursor.execute("SELECT id FROM categorias WHERE nombre = %s", (categoria,))
                 categoria_id = cursor.fetchone()[0]
@@ -304,7 +305,7 @@ class App:
         product_code = simpledialog.askstring("Editar Producto", "Código del Producto:")
         if product_code:
             try:
-                con = self.conectar()
+                con = self.modelo.conectar()
                 cursor = con.cursor()
                 cursor.execute("SELECT codigo, nombre, cantidad, precio, descripcion FROM productos WHERE codigo = %s", (product_code,))
                 product = cursor.fetchone()
@@ -371,7 +372,7 @@ class App:
         product_code = simpledialog.askstring("Eliminar Producto", "Código del Producto:")
         if product_code:
             try:
-                con = self.conectar()
+                con = self.modelo.conectar()
                 cursor = con.cursor()
                 cursor.execute("DELETE FROM productos WHERE codigo = %s", (product_code,))
                 con.commit()
@@ -390,7 +391,7 @@ class App:
         product_code = simpledialog.askstring("Vender Producto", "Código del Producto:")
         if product_code:
             try:
-                con = self.conectar()
+                con = self.modelo.conectar()
                 cursor = con.cursor()
                 cursor.execute("SELECT id, cantidad FROM productos WHERE codigo = %s", (product_code,))
                 product = cursor.fetchone()
@@ -424,7 +425,7 @@ class App:
         report_window.resizable(False, False)
 
         try:
-            con = self.conectar()
+            con = self.modelo.conectar()
             cursor = con.cursor()
 
             tk.Label(report_window, text="Productos Más Vendidos (más de 5 unidades):", font=("Arial", 12, "bold")).pack(padx=5, pady=5)
@@ -479,7 +480,7 @@ class App:
         new_category = simpledialog.askstring("Nueva Categoría", "Nombre de la Nueva Categoría:")
         if new_category:
             try:
-                con = self.conectar()
+                con = self.modelo.conectar()
                 cursor = con.cursor()
                 cursor.execute("INSERT INTO categorias (nombre) VALUES (%s)", (new_category,))
                 con.commit()
@@ -492,8 +493,3 @@ class App:
                 self.Botone_Categoria()
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error al guardar la categoría: {err}")
-
-if __name__ == "__main__":
-    root = tk.Tk()  
-    app = App(root)  
-    root.mainloop()

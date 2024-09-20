@@ -4,10 +4,9 @@ from PIL import ImageTk,Image
 import mysql.connector
 
 class vista_formulario:
-    def __init__(self, controlador, objmodelo):
+    def __init__(self, controlador):
         self.ventana = None
         self.controlador = controlador
-        self.objmodelo = objmodelo
 
     def crear_ventana(self):
         self.ventana = tk.Tk()
@@ -47,7 +46,7 @@ class vista_formulario:
             self.boton_registrar = tk.Button(self.contenedor, text="AQUI", borderwidth=0, width=4,pady=7, bg="white", fg="#b9030f",font=("Microsoft YaHei UI Light",10,"bold"), command=callback_registrar)
             self.boton_registrar.place(x=260,y=213)
     def crear_boton2(self):
-        self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.Verificar,width=39,pady=7,bg="#b9030f",fg="white",border=0)
+        self.boton = tk.Button(self.contenedor, text="Iniciar sesion", command=self.iniciar_sesion,width=39,pady=7,bg="#b9030f",fg="white",border=0)
         self.boton.place(x=60,y=274)
     
     
@@ -62,36 +61,12 @@ class vista_formulario:
         self.label_img = tk.Label(self.ventana, image=self.img_tk, bg="#d4ddb1", width=450, height=500)
         self.label_img.place(x=0, y=0)
     
-    def Verificar(self):
+    def iniciar_sesion(self):
         correo = self.entry_correo.get()
         contraseña = self.entry_contraseña.get()
         
         if correo and contraseña:
-            try:
-                con = self.objmodelo.conectar()
-                cursor = con.cursor()
-
-                consulta_verificacion = "SELECT * FROM `registrar usuario` WHERE `correo` = %s"
-                cursor.execute(consulta_verificacion, (correo,))
-                resultado = cursor.fetchone()
-
-                if resultado:
-                    consulta_sesion = "SELECT * FROM `iniciar sesion` WHERE `correo` = %s AND `contraseña` = %s"
-                    cursor.execute(consulta_sesion, (correo, contraseña))
-                    sesion_existente = cursor.fetchone()
-
-                    if sesion_existente:
-                        messagebox.showinfo("Información", "Iniciaste sesión correctamente.")
-                    else:
-                        messagebox.showerror("Error", "La contraseña es incorrecta.")
-                else:
-                    messagebox.showwarning("Advertencia", "El correo no está registrado. Por favor, regístrate primero.")
-
-                cursor.close()
-                con.close()
-
-            except mysql.connector.Error as err:
-                messagebox.showerror("Error", f"Error al conectar a la base de datos: {err}")
+            self.controlador.verificar_admin(correo, contraseña)
         else:
             messagebox.showwarning("Advertencia", "Todos los campos son obligatorios.")
 

@@ -48,10 +48,7 @@ class controlador:
             tk.messagebox.showerror("Error", f"No se pudo insertar el registro: {e}")
 
     
-    def verificar_admin(self):
-        correo = self.objmodelo.get_correo()
-        contraseña = self.objmodelo.get_contraseña()
-
+    def verificar_admin(self, correo, contraseña):
         try:
             con = self.objmodelo.conectar()
             cursor = con.cursor()
@@ -62,26 +59,27 @@ class controlador:
             cursor.close()
             con.close()
 
-            if resultado:
-                if "@admin" in correo:
-                    self.objvista_inicio.ventana.destroy()  
-                    self.abrir_catalogo_admin()  
+            if resultado and "@admin" in correo:
+                tk.messagebox.showinfo("Acceso concedido", "Bienvenido administrador.")
+                self.objvista_inicio.ventana.destroy()  
+                self.abrir_catalogo_admin()  
+            elif resultado:
+                tk.messagebox.showinfo("Acceso concedido", "Iniciaste sesión correctamente.")
             else:
-                tk.messagebox.showerror("Acceso denegado", "No tiene permisos de administrador.")
+                tk.messagebox.showerror("Acceso denegado", "Credenciales incorrectas o no tiene permisos de administrador.")
 
         except Exception as e:
             tk.messagebox.showerror("Error", f"No se pudo verificar el usuario: {e}")
     
     def abrir_catalogo_admin(self):
         root = tk.Tk() 
-        app = App(root)  
+        app = App(root,self.objmodelo)  
         root.mainloop()  
-        return app
 
         
-# Inicialización de los objetos
 objmodelo = modelo()
-objvista_inicio = vista_formulario(None,objmodelo)
-objvista_registro = vista_Registro()
-objcontrolador = controlador(objmodelo, objvista_inicio,objvista_registro)
+objvista_inicio = vista_formulario(None)
+objvista_registro = vista_Registro() 
+objcontrolador = controlador(objmodelo, objvista_inicio, objvista_registro)
+objvista_inicio.controlador = objcontrolador  
 objcontrolador.crear_ventana_inicio()
