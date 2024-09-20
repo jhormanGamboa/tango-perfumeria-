@@ -105,7 +105,7 @@ class App:
             messagebox.showerror("Error", f"Error al cargar categorías: {err}")
 
     def Botones_Navegacion(self):
-        tk.Button(self.nav_frame, text="comprar", command=self.sell_product, bg="#b9030f", fg="white",borderwidth=0, font=("Arial", 10, "bold")).place(x=790, y=30, width=150, height=40)
+        tk.Button(self.nav_frame, text="Vender", command=self.sell_product, bg="#b9030f", fg="white",borderwidth=0, font=("Arial", 10, "bold")).place(x=790, y=30, width=150, height=40)
 
     def Botone_Categoria(self):
         tk.Label(self.category_frame, text="Categorías",fg="black", bg="#d4ddb1", font=("Arial Rounded MT Bold",15,"bold")).place(x=10, y=10)
