@@ -197,7 +197,7 @@ class App:
 
                 if product:
                     product_id, cantidad_actual = product
-                    quantity = simpledialog.askinteger("Comprar Producto", "Cantidad a vender:")
+                    quantity = simpledialog.askinteger("Comprar Producto", "Cantidad a comprar:")
 
                     if quantity and quantity <= cantidad_actual:
                         cursor.execute("INSERT INTO ventas (producto_id, cantidad) VALUES (%s, %s)", (product_id, quantity))
