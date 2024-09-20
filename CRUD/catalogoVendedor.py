@@ -39,7 +39,7 @@ class App_ven:
 
         # Área de productos (parte central)
         self.product_frame = tk.Frame(self.main_frame, bg="#f0f0f0")
-        self.product_frame.place(x=180, y=100, width=750, height=400)
+        self.product_frame.place(x=180, y=100, width=700, height=800)
         self.show_products()
 
         
@@ -157,7 +157,7 @@ class App_ven:
         for producto in productos:
             code, nombre, cantidad, precio, descripcion, imagen_data = producto
             frame = tk.Frame(self.product_frame, bg="#ffffff", bd=2, relief="groove", padx=5, pady=5)
-            frame.place(x=col*205, y=row*20, width=180, height=210)
+            frame.place(x=col*205, y=row*240, width=190, height=220)
 
             imagen = Image.open(io.BytesIO(imagen_data))
             imagen = imagen.resize((100, 100), RESAMPLING_METHOD)
