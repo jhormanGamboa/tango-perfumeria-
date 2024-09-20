@@ -1,7 +1,7 @@
 from iniciar_secion import vista_formulario
 from Registro import vista_Registro
 from modelo import modelo
-from CatalogoAdministrador import App
+from CatalogoAdministrador import App_ad
 from catalogoVendedor import App
 from CatalogoCliente import App
 
@@ -51,54 +51,51 @@ class controlador:
             tk.messagebox.showerror("Error", f"No se pudo insertar el registro: {e}")
 
     
-def verificar_admin(self, correo, contraseña):
-    try:
-        con = self.objmodelo.conectar()
-        cursor = con.cursor()
-        query = "SELECT * FROM `registrar usuario` WHERE `correo` = %s AND `contraseña` = %s"
-        cursor.execute(query, (correo, contraseña))
-        resultado = cursor.fetchone()
+    def verificar_admin(self, correo, contraseña):
+        try:
+            con = self.objmodelo.conectar()
+            cursor = con.cursor()
+            query = "SELECT * FROM `registrar usuario` WHERE `correo` = %s AND `contraseña` = %s"
+            cursor.execute(query, (correo, contraseña))
+            resultado = cursor.fetchone()
 
-        cursor.close()
-        con.close()
+            cursor.close()
+            con.close()
 
-        if resultado:
-            if "@admin" in correo:
-                tk.messagebox.showinfo("Acceso concedido", "Bienvenido administrador.")
-                self.objvista_inicio.ventana.destroy()  
-                self.abrir_catalogo_admin()  
-            elif "@vendedor" in correo:
-                tk.messagebox.showinfo("Acceso concedido", "Bienvenido vendedor.")
-                self.objvista_inicio.ventana.destroy()
-                self.abrir_catalogo_vendedor()
-            elif "@cliente" in correo:
-                tk.messagebox.showinfo("Acceso concedido", "Bienvenido cliente.")
-                self.objvista_inicio.ventana.destroy()
-                self.abrir_catalogo_cliente()
+            if resultado:
+                if "@admin" in correo:
+                    tk.messagebox.showinfo("Acceso concedido", "Bienvenido administrador.")
+                    self.objvista_inicio.ventana.destroy()  
+                    self.abrir_catalogo_admin()  
+                elif "@vendedor" in correo:
+                    tk.messagebox.showinfo("Acceso concedido", "Bienvenido vendedor.")
+                    self.objvista_inicio.ventana.destroy()
+                    self.abrir_catalogo_vendedor()
+                elif "@gmail" in correo:
+                    tk.messagebox.showinfo("Acceso concedido", "Bienvenido vendedor.")
+                    self.objvista_inicio.ventana.destroy()
+                    self.abrir_catalogo_vendedor()
+                else:
+                    tk.messagebox.showinfo("Acceso concedido", "Iniciaste sesión correctamente.")
             else:
-                tk.messagebox.showinfo("Acceso concedido", "Iniciaste sesión correctamente.")
-        else:
-            tk.messagebox.showerror("Acceso denegado", "Credenciales incorrectas o no tiene permisos adecuados.")
+                tk.messagebox.showerror("Acceso denegado", "Credenciales incorrectas o no tiene permisos adecuados.")
+        except Exception as e:
+            tk.messagebox.showerror("Error", f"No se pudo verificar el usuario: {e}")
 
-    except Exception as e:
-        tk.messagebox.showerror("Error", f"No se pudo verificar el usuario: {e}")
+    def abrir_catalogo_cliente(self):
+        root = tk.Tk() 
+        app = App(root)  
+        root.mainloop()
 
-def abrir_catalogo_cliente(self):
-    root = tk.Tk() 
-    app = App(root, self.objmodelo)  
-    root.mainloop()
+    def abrir_catalogo_vendedor(self):
+        root = tk.Tk() 
+        app = App(root)  
+        root.mainloop()
 
-
-def abrir_catalogo_vendedor(self):
-    root = tk.Tk() 
-    app = App(root, self.objmodelo)  
-    root.mainloop()
-
-    
-def abrir_catalogo_admin(self):
-    root = tk.Tk() 
-    app = App(root,self.objmodelo)  
-    root.mainloop()  
+    def abrir_catalogo_admin(self):
+        root = tk.Tk() 
+        app = App_ad(root,self.objmodelo)  
+        root.mainloop()  
 
         
 objmodelo = modelo()
