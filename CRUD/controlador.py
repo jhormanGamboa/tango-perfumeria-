@@ -2,8 +2,8 @@ from iniciar_secion import vista_formulario
 from Registro import vista_Registro
 from modelo import modelo
 from CatalogoAdministrador import App_ad
-from catalogoVendedor import App
-from CatalogoCliente import App
+from catalogoVendedor import App_ven
+from catalogocliente import App
 
 import tkinter as tk
 
@@ -89,7 +89,7 @@ class controlador:
 
     def abrir_catalogo_vendedor(self):
         root = tk.Tk() 
-        app = App(root)  
+        app = App_ven(root,self.objmodelo)  
         root.mainloop()
 
     def abrir_catalogo_admin(self):
