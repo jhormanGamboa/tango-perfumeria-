@@ -10,7 +10,7 @@ try:
 except ImportError:
     RESAMPLING_METHOD = Image.Resampling.LANCZOS
 
-class App:
+class App_cli:
     def __init__(self, root):  
         self.root = root
         self.root.title("Catálogo de Productos")
@@ -217,9 +217,4 @@ class App:
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error al registrar la compra: {err}")
 
-   
-    
-if __name__ == "__main__":
-    root = tk.Tk()  
-    app = App(root)  
-    root.mainloop()
+

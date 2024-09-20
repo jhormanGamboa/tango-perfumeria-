@@ -3,7 +3,7 @@ from Registro import vista_Registro
 from modelo import modelo
 from CatalogoAdministrador import App_ad
 from catalogoVendedor import App_ven
-from catalogocliente import App
+from catalogocliente import App_cli
 
 import tkinter as tk
 
@@ -84,7 +84,7 @@ class controlador:
 
     def abrir_catalogo_cliente(self):
         root = tk.Tk() 
-        app = App(root)  
+        app = App_cli(root,self.objmodelo)  
         root.mainloop()
 
     def abrir_catalogo_vendedor(self):
