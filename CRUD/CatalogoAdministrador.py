@@ -11,7 +11,7 @@ try:
 except ImportError:
     RESAMPLING_METHOD = Image.Resampling.LANCZOS
 
-class App:
+class App_ad:
     def __init__(self, root,modelo):  
         self.root = root
         self.modelo = modelo
