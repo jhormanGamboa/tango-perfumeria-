@@ -204,7 +204,7 @@ class App:
                         cursor.execute("UPDATE productos SET cantidad = cantidad - %s WHERE id = %s", (quantity, product_id))
                         con.commit()
 
-                        messagebox.showinfo("Éxito", "Compra registrada correctamente.")
+                        messagebox.showinfo("Éxito", "Venta registrada correctamente.")
                         self.show_products()
                     else:
                         messagebox.showwarning("Advertencia", "Cantidad inválida o insuficiente.")
