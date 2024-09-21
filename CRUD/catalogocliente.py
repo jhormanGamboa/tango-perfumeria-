@@ -11,8 +11,9 @@ except ImportError:
     RESAMPLING_METHOD = Image.Resampling.LANCZOS
 
 class App_cli:
-    def __init__(self, root):  
+    def __init__(self, root,modelo):  
         self.root = root
+        self.modelo = modelo
         self.root.title("Catálogo de Productos")
         self.root.geometry("950x600")
         self.root.resizable(False, False)
@@ -81,18 +82,10 @@ class App_cli:
 
         self.IMG_cargar()
 
-    def conectar(self):
-        conection = mysql.connector.connect(
-            host="localhost",
-            database="tango-perfumeria",
-            user="root",
-            password=""
-        )
-        return conection
 
     def load_categories(self):
         try:
-            con = self.conectar()
+            con = self.modelo.conectar()
             cursor = con.cursor()
             cursor.execute("SELECT nombre FROM categorias")
             categorias = cursor.fetchall()
@@ -150,7 +143,7 @@ class App_cli:
         # Muestra los productos de la categoría seleccionada
         selected_category = self.current_category.get()
         try:
-            con = self.conectar()
+            con = self.modelo.conectar()
             cursor = con.cursor()
             cursor.execute("""
                 SELECT productos.codigo, productos.nombre, productos.cantidad, productos.precio, productos.descripcion, productos.imagen 
@@ -190,7 +183,7 @@ class App_cli:
         product_code = simpledialog.askstring("Comprar Producto", "Código del Producto:")
         if product_code:
             try:
-                con = self.conectar()
+                con = self.modelo.conectar()
                 cursor = con.cursor()
                 cursor.execute("SELECT id, cantidad FROM productos WHERE codigo = %s", (product_code,))
                 product = cursor.fetchone()
@@ -216,5 +209,3 @@ class App_cli:
 
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error al registrar la compra: {err}")
-
-

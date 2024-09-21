@@ -72,9 +72,9 @@ class controlador:
                     self.objvista_inicio.ventana.destroy()
                     self.abrir_catalogo_vendedor()
                 elif "@gmail" in correo:
-                    tk.messagebox.showinfo("Acceso concedido", "Bienvenido vendedor.")
+                    tk.messagebox.showinfo("Acceso concedido", "Bienvenido Usuario.")
                     self.objvista_inicio.ventana.destroy()
-                    self.abrir_catalogo_vendedor()
+                    self.abrir_catalogo_cliente()
                 else:
                     tk.messagebox.showinfo("Acceso concedido", "Iniciaste sesión correctamente.")
             else:
