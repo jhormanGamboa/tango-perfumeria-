@@ -388,8 +388,38 @@ class App_ad:
             messagebox.showerror("Error", "Producto no encontrado.")
 
     def sell_product(self):
-        product_code = simpledialog.askstring("Vender Producto", "Código del Producto:")
-        if product_code:
+        vender = tk.Toplevel(self.root)
+        vender.title("Vender Producto")
+        vender.geometry("300x200")
+        vender.config(bg="white")
+        vender.resizable(False, False)
+        self.contenedor = tk.Frame(vender, bg="#b9030f")
+        self.contenedor.place(x=0, y=0, width=300, height=60)
+        self.conteiner = tk.Frame(vender, bg="black")
+        self.conteiner.place(x=0, y=60, width=300, height=2)
+        self.conteiner0 = tk.Frame(vender, bg="black")
+        self.conteiner0.place(x=75, y=115, width=140, height=2)
+
+        tk.Label(self.contenedor, text="Tango", borderwidth=0,fg="white", bg="#b9030f", font=("Arial Rounded MT Bold",15,"bold")).place(x=0,y=0)
+        tk.Label(self.contenedor, text="Perfumeria", borderwidth=0,fg="white", bg="#b9030f", font=("Arial Rounded MT Bold",15,"bold")).place(x=30,y=30)
+    
+        tk.Label(vender, text="Código del Producto:", borderwidth=0,fg="black", bg="white", font=("Microsoft YaHei UI Light",11,"bold")).place(x=70,y=67)
+        code_entry = tk.Entry(vender,width=35,fg="black",border=0,bg="white",font=("Microsoft YaHei UI Light",11))
+        code_entry.place(x=75,y=90)
+
+        file2 = "CRUD\\IMG\\tango logo.png"
+        img2 = Image.open(file2)
+        img2 = img2.resize((60, 60))
+        self.img_tk2 = ImageTk.PhotoImage(img2)
+        
+        self.label_img = tk.Label(self.contenedor, image=self.img_tk2, bg="#b9030f")
+        self.label_img.place(x=180, y=0)
+
+        def submit_code():
+            product_code = code_entry.get()
+            if not product_code:
+                messagebox.showwarning("Advertencia", "Por favor, introduce el código del producto.")
+                return
             try:
                 con = self.modelo.conectar()
                 cursor = con.cursor()
@@ -398,25 +428,70 @@ class App_ad:
 
                 if product:
                     product_id, cantidad_actual = product
-                    quantity = simpledialog.askinteger("Vender Producto", "Cantidad a vender:")
+                    vender.destroy()  
+                    quantity_window = tk.Toplevel(self.root)
+                    quantity_window.title("Vender Producto")
+                    quantity_window.geometry("300x200")
+                    quantity_window.config(bg="white")
+                    quantity_window.resizable(False, False)
 
-                    if quantity and quantity <= cantidad_actual:
-                        cursor.execute("INSERT INTO ventas (producto_id, cantidad) VALUES (%s, %s)", (product_id, quantity))
-                        cursor.execute("UPDATE productos SET cantidad = cantidad - %s WHERE id = %s", (quantity, product_id))
-                        con.commit()
+                    self.contenedor2 = tk.Frame(quantity_window, bg="#b9030f")
+                    self.contenedor2.place(x=0, y=0, width=300, height=60)
+                    self.conteiner2 = tk.Frame(quantity_window, bg="black")
+                    self.conteiner2.place(x=0, y=60, width=300, height=2)
+                    self.conteiner02 = tk.Frame(quantity_window, bg="black")
+                    self.conteiner02.place(x=75, y=132, width=140, height=2)
 
-                        messagebox.showinfo("Éxito", "Venta registrada correctamente.")
-                        self.show_products()
-                    else:
-                        messagebox.showwarning("Advertencia", "Cantidad inválida o insuficiente.")
+                    tk.Label(self.contenedor2, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+                    tk.Label(self.contenedor2, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+
+                    tk.Label(quantity_window, text=f"Cantidad disponible: {cantidad_actual}\nIngrese la cantidad a vender:", borderwidth=0, fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=70)
+                    quantity_entry = tk.Entry(quantity_window, width=35, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
+                    quantity_entry.place(x=75, y=110)
+
+                    file3 = "CRUD\\IMG\\tango logo.png"
+                    img3 = Image.open(file3)
+                    img3 = img3.resize((60, 60))
+                    self.img_tk3 = ImageTk.PhotoImage(img3)
+        
+                    self.label_img1 = tk.Label(self.contenedor2, image=self.img_tk3, bg="#b9030f")
+                    self.label_img1.place(x=180, y=0)
+
+                    def submit_quantity():
+                        try:
+                            quantity = int(quantity_entry.get())
+                            if quantity > 0 and quantity <= cantidad_actual:
+                                quantity_window.destroy()  
+                                try:
+                                    con = self.modelo.conectar()
+                                    cursor = con.cursor()
+                                    cursor.execute("INSERT INTO ventas (producto_id, cantidad) VALUES (%s, %s)", (product_id, quantity))
+                                    cursor.execute("UPDATE productos SET cantidad = cantidad - %s WHERE id = %s", (quantity, product_id))
+                                    con.commit()
+                                    messagebox.showinfo("Éxito", "Venta registrada correctamente.")
+                                    self.show_products()
+                                    cursor.close()
+                                    con.close()
+
+                                except mysql.connector.Error as err:
+                                    messagebox.showerror("Error", f"Error al registrar la venta: {err}")
+                            else:
+                                messagebox.showwarning("Advertencia", "Cantidad insuficiente o inválida.")
+                        except ValueError:
+                            messagebox.showerror("Error", "Por favor, introduce un número válido.")
+                    tk.Button(quantity_window, text="Aceptar", command=submit_quantity, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=85, y=150, width=130, height=30)
                 else:
                     messagebox.showerror("Error", "Producto no encontrado.")
-                
-                cursor.close()
-                con.close()
-
+                    cursor.close()
+                    con.close()
             except mysql.connector.Error as err:
-                messagebox.showerror("Error", f"Error al registrar la venta: {err}")
+                messagebox.showerror("Error", f"Error al conectar a la base de datos: {err}")
+                if cursor:
+                    cursor.close()
+                if con:
+                    con.close()
+
+        tk.Button(vender, text="Aceptar", command=submit_code, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=78, y=140, width=130, height=30)
 
     def generate_report(self):
         report_window = tk.Toplevel(self.root)
