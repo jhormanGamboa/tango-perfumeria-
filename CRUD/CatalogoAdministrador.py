@@ -131,12 +131,12 @@ class App_ad:
         self.label_img3 = tk.Label(self.category_frame, image=self.img_tk3, bg="#d4ddb1")
         self.label_img3.place(x=-30, y=170)
 
-        file9 = "CRUD\\IMG\\youtube.png"
-        img9 = Image.open(file9)
-        img9 = img9.resize((205, 150))
-        self.img_tk9 = ImageTk.PhotoImage(img9)
+        file7 = "CRUD\\IMG\\youtube.png"
+        img7 = Image.open(file7)
+        img7 = img7.resize((205, 150))
+        self.img_tk7 = ImageTk.PhotoImage(img7)
         
-        self.label_img9 = tk.Label(self.category_frame, image=self.img_tk9, bg="#d4ddb1")
+        self.label_img9 = tk.Label(self.category_frame, image=self.img_tk3, bg="#d4ddb1")
         self.label_img9.place(x=-30, y=300)
 
         file5 = "CRUD\\IMG\\editar.png"
