@@ -131,13 +131,13 @@ class App_ad:
         self.label_img3 = tk.Label(self.category_frame, image=self.img_tk3, bg="#d4ddb1")
         self.label_img3.place(x=-30, y=170)
 
-        file4 = "CRUD\\IMG\\youtube.png"
-        img4 = Image.open(file4)
-        img4 = img4.resize((205, 150))
-        self.img_tk4 = ImageTk.PhotoImage(img4)
+        file9 = "CRUD\\IMG\\youtube.png"
+        img9 = Image.open(file9)
+        img9 = img9.resize((205, 150))
+        self.img_tk9 = ImageTk.PhotoImage(img9)
         
-        self.label_img4 = tk.Label(self.category_frame, image=self.img_tk4, bg="#d4ddb1")
-        self.label_img4.place(x=-30, y=300)
+        self.label_img9 = tk.Label(self.category_frame, image=self.img_tk9, bg="#d4ddb1")
+        self.label_img9.place(x=-30, y=300)
 
         file5 = "CRUD\\IMG\\editar.png"
         img5 = Image.open(file5)
@@ -219,12 +219,13 @@ class App_ad:
             file_path = filedialog.askopenfilename(title="Seleccionar Imagen", filetypes=[("Image files", "*.jpg *.png")])
             if file_path:
                 original_img = Image.open(file_path)
-                product_data['imagen'] = original_img 
-                img = original_img.resize((100, 100), RESAMPLING_METHOD)
+                product_data['imagen'] = original_img
+                img = original_img.resize((100, 100))
                 img_tk = ImageTk.PhotoImage(img)
                 product_image_label.config(image=img_tk)
                 product_image_label.image = img_tk
-
+            register_window.lift()  
+            register_window.focus_force()
 
         def save_product():
             categoria = category_var.get()
@@ -252,7 +253,7 @@ class App_ad:
                 cursor.execute("""
                     INSERT INTO productos (categoria_id, codigo, nombre, cantidad, precio, descripcion, imagen) 
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
-                """, (categoria_id, codigo, nombre, cantidad, precio, descripcion, img_byte_arr))
+            """, (categoria_id, codigo, nombre, cantidad, precio, descripcion, img_byte_arr))
                 con.commit()
                 cursor.close()
                 con.close()
@@ -264,75 +265,140 @@ class App_ad:
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error al guardar el producto: {err}")
 
-        # Ventana para registrar producto
         register_window = tk.Toplevel(self.root)
         register_window.title("Registrar Producto")
-        register_window.geometry("400x400")
+        register_window.geometry("400x470")
+        register_window.config(bg="white")
         register_window.resizable(False, False)
 
-        # Configuración de la ventana de registro
-        tk.Label(register_window, text="Categoría:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(register_window, text="Código:").grid(row=1, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(register_window, text="Nombre:").grid(row=2, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(register_window, text="Cantidad:").grid(row=3, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(register_window, text="Precio:").grid(row=4, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(register_window, text="Descripción:").grid(row=5, column=0, padx=5, pady=5, sticky="e")
-        tk.Label(register_window, text="Imagen:").grid(row=6, column=0, padx=5, pady=5, sticky="e")
+        self.contenedor3 = tk.Frame(register_window, bg="#b9030f")
+        self.contenedor3.place(x=0, y=0, width=500, height=60)
+        self.conteiner21 = tk.Frame(register_window, bg="black")
+        self.conteiner21.place(x=0, y=60, width=500, height=2)
+        self.conteiner8 = tk.Frame(register_window, bg="black")
+        self.conteiner8.place(x=30, y=148, width=320, height=2)
+        self.conteiner4 = tk.Frame(register_window, bg="black")
+        self.conteiner4.place(x=30, y=188, width=320, height=2)
+        self.conteiner5 = tk.Frame(register_window, bg="black")
+        self.conteiner5.place(x=30, y=228, width=320, height=2)
+        self.conteiner6 = tk.Frame(register_window, bg="black")
+        self.conteiner6.place(x=30, y=267, width=320, height=2)
+        self.conteiner7 = tk.Frame(register_window, bg="black")
+        self.conteiner7.place(x=30, y=308, width=320, height=2)
+        
+        
+
+        tk.Label(self.contenedor3, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+        tk.Label(self.contenedor3, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+
+        file4 = "CRUD\\IMG\\tango logo.png"
+        img4 = Image.open(file4)
+        img4 = img4.resize((60, 60))
+        self.img_tk4 = ImageTk.PhotoImage(img4)
+        self.label_img4 = tk.Label(self.contenedor3, image=self.img_tk4, bg="#b9030f")
+        self.label_img4.place(x=300, y=0)
+
+        tk.Label(register_window, text="Categoría:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=80)
+        tk.Label(register_window, text="Código:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=120)
+        tk.Label(register_window, text="Nombre:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=160)
+        tk.Label(register_window, text="Cantidad:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=200)
+        tk.Label(register_window, text="Precio:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=240)
+        tk.Label(register_window, text="Descripción:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=280)
+        tk.Label(register_window, text="Imagen:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=320)
 
         category_var = tk.StringVar(value=self.categories[0])
-        tk.OptionMenu(register_window, category_var, *self.categories).grid(row=0, column=1, padx=5, pady=5)
-        code_entry = tk.Entry(register_window)
-        code_entry.grid(row=1, column=1, padx=5, pady=5)
-        name_entry = tk.Entry(register_window)
-        name_entry.grid(row=2, column=1, padx=5, pady=5)
-        quantity_entry = tk.Entry(register_window)
-        quantity_entry.grid(row=3, column=1, padx=5, pady=5)
-        price_entry = tk.Entry(register_window)
-        price_entry.grid(row=4, column=1, padx=5, pady=5)
-        description_entry = tk.Entry(register_window)
-        description_entry.grid(row=5, column=1, padx=5, pady=5)
+        tk.OptionMenu(register_window, category_var, *self.categories).place(x=130, y=80, width=200)
+        code_entry = tk.Entry(register_window,border=0,font=("Microsoft YaHei UI Light",9))
+        code_entry.place(x=101, y=128, width=200)
+        name_entry = tk.Entry(register_window,border=0,font=("Microsoft YaHei UI Light",9))
+        name_entry.place(x=103, y=167, width=200)
+        quantity_entry = tk.Entry(register_window,border=0,font=("Microsoft YaHei UI Light",9))
+        quantity_entry.place(x=105, y=208, width=200)
+        price_entry = tk.Entry(register_window,border=0,font=("Microsoft YaHei UI Light",9))
+        price_entry.place(x=93, y=245, width=200)
+        description_entry = tk.Entry(register_window,border=0,font=("Microsoft YaHei UI Light",9))
+        description_entry.place(x=125, y=287, width=200)
 
-        product_image_label = tk.Label(register_window, text="Imagen", width=10, height=10, bg="#d4ddb1")
-        product_image_label.grid(row=6, column=1, padx=5, pady=5)
-        tk.Button(register_window, text="Seleccionar Imagen", command=select_image).grid(row=6, column=2, padx=5, pady=5)
+        product_image_label = tk.Label(register_window, text="Imagen", width=100, height=100, bg="white")
+        product_image_label.place(x=130, y=320)
+        tk.Button(register_window, text="Seleccionar Imagen", command=select_image, bg="#b9030f", fg="white", borderwidth=0).place(x=285, y=325)
 
         product_data = {}
 
-        # Botón "Registrar Producto" dentro de la ventana de registro
-        tk.Button(register_window, text="Registrar Producto", command=save_product, bg="#b9030f", fg="white").grid(row=7, column=0, columnspan=3, pady=10)
-
+        tk.Button(register_window, text="Registrar Producto", command=save_product, bg="#b9030f", fg="white", font=("Arial", 10, "bold"), borderwidth=0).place(x=130, y=420, width=150, height=30)
+    
     def Editar_Productos(self):
-        product_code = simpledialog.askstring("Editar Producto", "Código del Producto:")
-        if product_code:
+        code_window = tk.Toplevel(self.root)
+        code_window.title("Editar Producto")
+        code_window.geometry("300x200")
+        code_window.config(bg="white")
+        code_window.resizable(False, False)
+
+        self.contenedor = tk.Frame(code_window, bg="#b9030f")
+        self.contenedor.place(x=0, y=0, width=300, height=60)
+        self.conteiner = tk.Frame(code_window, bg="black")
+        self.conteiner.place(x=0, y=60, width=300, height=2)
+        self.conteiner0 = tk.Frame(code_window, bg="black")
+        self.conteiner0.place(x=75, y=115, width=140, height=2)
+        tk.Label(self.contenedor, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+        tk.Label(self.contenedor, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+        tk.Label(code_window, text="Código del Producto:", borderwidth=0, fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=70, y=67)
+        product_code_entry = tk.Entry(code_window, width=35, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
+        product_code_entry.place(x=75, y=90)
+
+        file2 = "CRUD\\IMG\\tango logo.png"
+        img2 = Image.open(file2)
+        img2 = img2.resize((60, 60))
+        self.img_tk2 = ImageTk.PhotoImage(img2)
+        self.label_img = tk.Label(self.contenedor, image=self.img_tk2, bg="#b9030f")
+        self.label_img.place(x=180, y=0)
+
+        def submit_code():
+            product_code = product_code_entry.get()
+            if not product_code:
+                messagebox.showwarning("Advertencia", "Por favor, introduce el código del producto.")
+                return
+
             try:
                 con = self.modelo.conectar()
                 cursor = con.cursor()
+
                 cursor.execute("SELECT codigo, nombre, cantidad, precio, descripcion FROM productos WHERE codigo = %s", (product_code,))
                 product = cursor.fetchone()
-                cursor.close()
-                con.close()
 
                 if product:
                     codigo, nombre, cantidad, precio, descripcion = product
 
                     edit_window = tk.Toplevel(self.root)
                     edit_window.title(f"Editar {product_code}")
-                    edit_window.geometry("300x200")
+                    edit_window.geometry("300x300")
+                    edit_window.config(bg="white")
                     edit_window.resizable(False, False)
 
-                    tk.Label(edit_window, text="Precio:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
-                    tk.Label(edit_window, text="Cantidad:").grid(row=1, column=0, padx=5, pady=5, sticky="e")
-                    tk.Label(edit_window, text="Descripción:").grid(row=2, column=0, padx=5, pady=5, sticky="e")
+                    self.contenedor = tk.Frame(edit_window, bg="#b9030f")
+                    self.contenedor.place(x=0, y=0, width=300, height=60)
+                    self.conteiner = tk.Frame(edit_window, bg="black")
+                    self.conteiner.place(x=0, y=60, width=300, height=2)
+                    self.conteiner0 = tk.Frame(edit_window, bg="black")
+                    self.conteiner0.place(x=75, y=190, width=140, height=2)
 
-                    price_entry = tk.Entry(edit_window)
+                    tk.Label(self.contenedor, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+                    tk.Label(self.contenedor, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+                    tk.Label(edit_window, text="Precio:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=10, y=80)
+                    tk.Label(edit_window, text="Cantidad:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=10, y=120)
+                    tk.Label(edit_window, text="Descripción:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=10, y=160)
+
+                    price_entry = tk.Entry(edit_window, width=25, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
                     price_entry.insert(0, precio)
-                    price_entry.grid(row=0, column=1, padx=5, pady=5)
-                    quantity_entry = tk.Entry(edit_window)
+                    price_entry.place(x=100, y=80)
+
+                    quantity_entry = tk.Entry(edit_window, width=25, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
                     quantity_entry.insert(0, cantidad)
-                    quantity_entry.grid(row=1, column=1, padx=5, pady=5)
-                    description_entry = tk.Entry(edit_window)
+                    quantity_entry.place(x=100, y=120)
+
+                    description_entry = tk.Entry(edit_window, width=25, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
                     description_entry.insert(0, descripcion)
-                    description_entry.grid(row=2, column=1, padx=5, pady=5)
+                    description_entry.place(x=100, y=160)
 
                     def save_changes():
                         new_price = price_entry.get()
@@ -341,13 +407,13 @@ class App_ad:
 
                         if new_price and new_quantity and new_description:
                             try:
-                                con = self.conectar()
+                                con = self.modelo.conectar()
                                 cursor = con.cursor()
                                 cursor.execute("""
                                     UPDATE productos 
                                     SET precio = %s, cantidad = %s, descripcion = %s 
                                     WHERE codigo = %s
-                                """, (new_price, new_quantity, new_description, product_code))
+                               """, (new_price, new_quantity, new_description, product_code))
                                 con.commit()
                                 cursor.close()
                                 con.close()
@@ -361,16 +427,54 @@ class App_ad:
                         else:
                             messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
 
-                    tk.Button(edit_window, text="Guardar Cambios", command=save_changes, bg="#b9030f", fg="white").grid(row=3, column=0, columnspan=2, pady=10)
+                    tk.Button(edit_window, text="Guardar Cambios", command=save_changes, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=85, y=230, width=130, height=30)
+                    code_window.destroy()
+
                 else:
                     messagebox.showerror("Error", "Producto no encontrado.")
+            finally:
+                cursor.close()
+                con.close()
 
-            except mysql.connector.Error as err:
-                messagebox.showerror("Error", f"Error al conectar a la base de datos: {err}")
+        tk.Button(code_window, text="Aceptar", command=submit_code, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=85, y=140, width=130, height=30)
+
 
     def Eliminar_Productos(self):
-        product_code = simpledialog.askstring("Eliminar Producto", "Código del Producto:")
-        if product_code:
+        eliminar_window = tk.Toplevel(self.root)
+        eliminar_window.title("Eliminar Producto")
+        eliminar_window.geometry("300x200")
+        eliminar_window.config(bg="white")
+        eliminar_window.resizable(False, False)
+
+        self.contenedor = tk.Frame(eliminar_window, bg="#b9030f")
+        self.contenedor.place(x=0, y=0, width=300, height=60)
+        self.conteiner = tk.Frame(eliminar_window, bg="black")
+        self.conteiner.place(x=0, y=60, width=300, height=2)
+        self.conteiner0 = tk.Frame(eliminar_window, bg="black")
+        self.conteiner0.place(x=75, y=115, width=140, height=2)
+
+        tk.Label(self.contenedor, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+        tk.Label(self.contenedor, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+
+        tk.Label(eliminar_window, text="Código del Producto:", borderwidth=0, fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=70, y=67)
+        product_code_entry = tk.Entry(eliminar_window, width=35, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
+        product_code_entry.place(x=75, y=90)
+
+
+        file2 = "CRUD\\IMG\\tango logo.png"
+        img2 = Image.open(file2)
+        img2 = img2.resize((60, 60))
+        self.img_tk2 = ImageTk.PhotoImage(img2)
+
+        self.label_img = tk.Label(self.contenedor, image=self.img_tk2, bg="#b9030f")
+        self.label_img.place(x=180, y=0)
+
+        def submit_deletion():
+            product_code = product_code_entry.get()
+            if not product_code:
+                messagebox.showwarning("Advertencia", "Por favor, introduce el código del producto.")
+                return
+
             try:
                 con = self.modelo.conectar()
                 cursor = con.cursor()
@@ -381,11 +485,16 @@ class App_ad:
 
                 messagebox.showinfo("Éxito", "Producto eliminado correctamente.")
                 self.show_products()
+                eliminar_window.destroy()
 
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error al eliminar el producto: {err}")
-        else:
-            messagebox.showerror("Error", "Producto no encontrado.")
+                if cursor:
+                    cursor.close()
+                if con:
+                    con.close()
+
+        tk.Button(eliminar_window, text="Eliminar", command=submit_deletion, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=85, y=140, width=130, height=30)
 
     def sell_product(self):
         vender = tk.Toplevel(self.root)
@@ -393,6 +502,7 @@ class App_ad:
         vender.geometry("300x200")
         vender.config(bg="white")
         vender.resizable(False, False)
+    
         self.contenedor = tk.Frame(vender, bg="#b9030f")
         self.contenedor.place(x=0, y=0, width=300, height=60)
         self.conteiner = tk.Frame(vender, bg="black")
@@ -400,18 +510,18 @@ class App_ad:
         self.conteiner0 = tk.Frame(vender, bg="black")
         self.conteiner0.place(x=75, y=115, width=140, height=2)
 
-        tk.Label(self.contenedor, text="Tango", borderwidth=0,fg="white", bg="#b9030f", font=("Arial Rounded MT Bold",15,"bold")).place(x=0,y=0)
-        tk.Label(self.contenedor, text="Perfumeria", borderwidth=0,fg="white", bg="#b9030f", font=("Arial Rounded MT Bold",15,"bold")).place(x=30,y=30)
-    
-        tk.Label(vender, text="Código del Producto:", borderwidth=0,fg="black", bg="white", font=("Microsoft YaHei UI Light",11,"bold")).place(x=70,y=67)
-        code_entry = tk.Entry(vender,width=35,fg="black",border=0,bg="white",font=("Microsoft YaHei UI Light",11))
-        code_entry.place(x=75,y=90)
+        tk.Label(self.contenedor, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+        tk.Label(self.contenedor, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+
+        tk.Label(vender, text="Código del Producto:", borderwidth=0, fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=70, y=67)
+        code_entry = tk.Entry(vender, width=35, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
+        code_entry.place(x=75, y=90)
 
         file2 = "CRUD\\IMG\\tango logo.png"
         img2 = Image.open(file2)
         img2 = img2.resize((60, 60))
         self.img_tk2 = ImageTk.PhotoImage(img2)
-        
+
         self.label_img = tk.Label(self.contenedor, image=self.img_tk2, bg="#b9030f")
         self.label_img.place(x=180, y=0)
 
@@ -453,14 +563,14 @@ class App_ad:
                     img3 = Image.open(file3)
                     img3 = img3.resize((60, 60))
                     self.img_tk3 = ImageTk.PhotoImage(img3)
-        
+
                     self.label_img1 = tk.Label(self.contenedor2, image=self.img_tk3, bg="#b9030f")
                     self.label_img1.place(x=180, y=0)
 
                     def submit_quantity():
                         try:
                             quantity = int(quantity_entry.get())
-                            if quantity > 0 and quantity <= cantidad_actual:
+                            if 0 < quantity <= cantidad_actual:
                                 quantity_window.destroy()  
                                 try:
                                     con = self.modelo.conectar()
@@ -470,15 +580,16 @@ class App_ad:
                                     con.commit()
                                     messagebox.showinfo("Éxito", "Venta registrada correctamente.")
                                     self.show_products()
-                                    cursor.close()
-                                    con.close()
-
                                 except mysql.connector.Error as err:
                                     messagebox.showerror("Error", f"Error al registrar la venta: {err}")
+                                finally:
+                                    cursor.close()
+                                    con.close()
                             else:
                                 messagebox.showwarning("Advertencia", "Cantidad insuficiente o inválida.")
                         except ValueError:
                             messagebox.showerror("Error", "Por favor, introduce un número válido.")
+
                     tk.Button(quantity_window, text="Aceptar", command=submit_quantity, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=85, y=150, width=130, height=30)
                 else:
                     messagebox.showerror("Error", "Producto no encontrado.")
@@ -496,64 +607,122 @@ class App_ad:
     def generate_report(self):
         report_window = tk.Toplevel(self.root)
         report_window.title("Informe de Ventas")
-        report_window.geometry("400x400")
+        report_window.geometry("400x600")
+        report_window.config(bg="white")
         report_window.resizable(False, False)
+
+        self.contenedor3 = tk.Frame(report_window, bg="#b9030f")
+        self.contenedor3.place(x=0, y=0, width=400, height=60)
+
+        tk.Label(self.contenedor3, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+        tk.Label(self.contenedor3, text="Informe de Ventas", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+
+        file4 = "CRUD\\IMG\\tango logo.png"
+        img4 = Image.open(file4)
+        img4 = img4.resize((60, 60))
+        self.img_tk4 = ImageTk.PhotoImage(img4)
+        self.label_img4 = tk.Label(self.contenedor3, image=self.img_tk4, bg="#b9030f")
+        self.label_img4.place(x=300, y=0)
+
+        self.conteiner21 = tk.Frame(report_window, bg="black")
+        self.conteiner21.place(x=0, y=60, width=400, height=2)
 
         try:
             con = self.modelo.conectar()
             cursor = con.cursor()
 
-            tk.Label(report_window, text="Productos Más Vendidos (más de 5 unidades):", font=("Arial", 12, "bold")).pack(padx=5, pady=5)
-            cursor.execute("""
-                SELECT productos.nombre, SUM(ventas.cantidad) as total_vendido 
-                FROM ventas 
-                INNER JOIN productos ON ventas.producto_id = productos.id 
-                GROUP BY productos.nombre 
-                HAVING total_vendido > 5
-            """)
-            mas_vendidos = cursor.fetchall()
-            for producto in mas_vendidos:
-                tk.Label(report_window, text=f"{producto[0]}: {producto[1]} unidades vendidas").pack(padx=5, pady=5)
+            tk.Label(report_window, text="Productos Más Vendidos:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=80)
+            self.conteiner8 = tk.Frame(report_window, bg="black")
+            self.conteiner8.place(x=30, y=108, width=320, height=2)
 
-            tk.Label(report_window, text="Productos Menos Vendidos (menos de 5 unidades):", font=("Arial", 12, "bold")).pack(padx=5, pady=5)
             cursor.execute("""
                 SELECT productos.nombre, SUM(ventas.cantidad) as total_vendido 
                 FROM ventas 
-                INNER JOIN productos ON ventas.producto_id = productos.id 
+                LEFT JOIN productos ON ventas.producto_id = productos.id 
                 GROUP BY productos.nombre 
-                HAVING total_vendido < 5
+                HAVING total_vendido > 10
+            """)    
+            mas_vendidos = cursor.fetchall()
+            y_position = 130 
+            for producto in mas_vendidos:
+                tk.Label(report_window, text=f"{producto[0]}: {producto[1]} unidades", fg="black", bg="white", font=("Microsoft YaHei UI Light", 9)).place(x=30, y=y_position)
+                y_position += 30
+            tk.Label(report_window, text="------------------------------", fg="black", bg="white", font=("Microsoft YaHei UI Light", 9)).place(x=30, y=y_position + 10)
+
+            tk.Label(report_window, text="Productos Menos Vendidos:", fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=30, y=y_position + 40)
+            self.conteiner9 = tk.Frame(report_window, bg="black")
+            self.conteiner9.place(x=30, y=y_position + 68, width=320, height=2)
+
+            cursor.execute("""
+                SELECT productos.nombre, SUM(ventas.cantidad) as total_vendido 
+                FROM ventas 
+                LEFT JOIN productos ON ventas.producto_id = productos.id 
+                GROUP BY productos.nombre 
+                HAVING total_vendido > 0 AND total_vendido < 5
             """)
             menos_vendidos = cursor.fetchall()
 
-            report_data = {
-            "Productos Más Vendidos": mas_vendidos,
-            "Productos Menos Vendidos": menos_vendidos,
-        }
+            y_position += 90
+            for producto in menos_vendidos:
+                tk.Label(report_window, text=f"{producto[0]}: {producto[1]} unidades", fg="black", bg="white", font=("Microsoft YaHei UI Light", 9)).place(x=30, y=y_position)
+                y_position += 30
+            def export_report():
+                file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt")])
+                if file_path:
+                    with open(file_path, 'w') as file:
+                        file.write("INFORME DE VENTAS\n\n")
+                        file.write("---------------------------------------------------\n")
+                        file.write("Productos Mas Vendidos:\n")
+                        file.write("---------------------------------------------------\n\n")
+                        for producto in mas_vendidos:
+                            file.write(f"Producto: {producto[0]:<30} | Vendido: {producto[1]} unidades\n")
+                        file.write("\n\n---------------------------------------------------\n")
+                        file.write("Productos Menos Vendidos:\n")
+                        file.write("---------------------------------------------------\n\n")
+                        for producto in menos_vendidos:
+                            file.write(f"Producto: {producto[0]:<30} | Vendido: {producto[1]} unidades\n")
+                        file.write("\nFin del informe.\n")
 
-            file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt")])
-            if file_path:
-                with open(file_path, 'w') as file:
-                    file.write("INFORME DE VENTAS\n\n")
-                    file.write("---------------------------------------------------\n")
-                    file.write("Productos Mas Vendidos:\n")
-                    file.write("---------------------------------------------------\n\n")
-                    for producto in report_data["Productos Más Vendidos"]:
-                        file.write(f"Producto: {producto[0]:<30} | Vendido: {producto[1]} unidades\n")
-                    file.write("\n\n---------------------------------------------------\n")
-                    file.write("Productos Menos Vendidos:\n")
-                    file.write("---------------------------------------------------\n\n")
-                    for producto in report_data["Productos Menos Vendidos"]:
-                        file.write(f"Producto: {producto[0]:<30} | Vendido: {producto[1]} unidades\n")
-                    file.write("\nFin del informe.\n")
-                
-                messagebox.showinfo("Éxito", f"Informe guardado en {file_path}")
+                    messagebox.showinfo("Éxito", f"Informe guardado en {file_path}")
+            tk.Button(report_window, text="Guardar Informe", command=export_report, bg="#b9030f", fg="white", font=("Arial", 10, "bold"), borderwidth=0).place(x=240, y=75, width=150, height=30)
 
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Error al generar el informe: {err}")
 
     def NuevaCategoria(self):
-        new_category = simpledialog.askstring("Nueva Categoría", "Nombre de la Nueva Categoría:")
-        if new_category:
+        new_category_window = tk.Toplevel(self.root)
+        new_category_window.title("Nueva Categoría")
+        new_category_window.geometry("300x200")
+        new_category_window.config(bg="white")
+        new_category_window.resizable(False, False)
+
+        self.contenedor = tk.Frame(new_category_window, bg="#b9030f")
+        self.contenedor.place(x=0, y=0, width=300, height=60)
+        self.conteiner = tk.Frame(new_category_window, bg="black")
+        self.conteiner.place(x=0, y=60, width=300, height=2)
+        self.conteiner0 = tk.Frame(new_category_window, bg="black")
+        self.conteiner0.place(x=75, y=115, width=140, height=2)
+
+        tk.Label(self.contenedor, text="Tango", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=0, y=0)
+        tk.Label(self.contenedor, text="Perfumeria", borderwidth=0, fg="white", bg="#b9030f", font=("Arial Rounded MT Bold", 15, "bold")).place(x=30, y=30)
+
+        tk.Label(new_category_window, text="Nueva Categoría:", borderwidth=0, fg="black", bg="white", font=("Microsoft YaHei UI Light", 11, "bold")).place(x=70, y=67)
+        category_entry = tk.Entry(new_category_window, width=35, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
+        category_entry.place(x=75, y=90)
+
+        file2 = "CRUD\\IMG\\tango logo.png"
+        img2 = Image.open(file2)
+        img2 = img2.resize((60, 60))
+        self.img_tk2 = ImageTk.PhotoImage(img2)
+
+        self.label_img = tk.Label(self.contenedor, image=self.img_tk2, bg="#b9030f")
+        self.label_img.place(x=180, y=0)
+
+        def submit_category():
+            new_category = category_entry.get()
+            if not new_category:
+                messagebox.showwarning("Advertencia", "Por favor, introduce el nombre de la nueva categoría.")
+                return
             try:
                 con = self.modelo.conectar()
                 cursor = con.cursor()
@@ -566,5 +735,12 @@ class App_ad:
                 self.current_category.set(new_category)
                 self.show_products()
                 self.Botone_Categoria()
+                messagebox.showinfo("Éxito", "Categoría creada correctamente.")
+                new_category_window.destroy()
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error al guardar la categoría: {err}")
+                if cursor:
+                    cursor.close()
+                if con:
+                    con.close()
+        tk.Button(new_category_window, text="Aceptar", command=submit_category, borderwidth=0, bg="#b9030f", fg="white", font=("Arial", 10, "bold")).place(x=85, y=140, width=130, height=30)
